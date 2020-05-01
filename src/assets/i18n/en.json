@@ -1,0 +1,22 @@
+{
+  "TAB_TODAY": "Today",
+  "TAB_DETAILS": "Details",
+  "TAB_MAP": "Maps",
+
+  "MENU_HOME": "Home",
+  "MENU_FAVORITES": "Favorites",
+  "MENU_SETTINGS": "Settings",
+  "MENU_INFO": "Info",
+
+  "snackbar_favorite_add_error" : "Could not add favorite",
+  "snackbar_favorite_remove_error" : "Could not remove favorite",
+  "try_again" : "Try Again",
+  "generic_error": "Something went wrong",
+  "location_prefs_error" : "Localization not allowed",
+  "location_prefs_button" : "Enable",
+  "location_settings_error" : "Geolocation not enabled",
+  "settings_button" : "Settings",
+  "connection_error" : "No internet connection",
+
+  "HOME_NOW": "NOW"
+}

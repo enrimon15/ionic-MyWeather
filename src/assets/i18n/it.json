@@ -1,0 +1,22 @@
+{
+  "TAB_TODAY": "Oggi",
+  "TAB_DETAILS": "Dettagli",
+  "TAB_MAP": "Mappa",
+
+  "MENU_HOME": "Home",
+  "MENU_FAVORITES": "Preferiti",
+  "MENU_SETTINGS": "Impostazioni",
+  "MENU_INFO": "Info",
+
+  "snackbar_favorite_add_error" : "Non è stato possibile aggiungere preferito",
+  "snackbar_favorite_remove_error" : "Non è stato possibile rimuovere preferito",
+  "try_again" : "Riprova",
+  "generic_error": "Qualcosa è andato storto",
+  "location_prefs_error" : "Accesso alla localizzazione non consentito",
+  "location_prefs_button" : "Abilita",
+  "location_settings_error" : "Geolocalizzazione non abilitata",
+  "settings_button" : "Impostazioni",
+  "connection_error" : "Connessione internet assente",
+
+  "HOME_NOW": "ORA"
+}

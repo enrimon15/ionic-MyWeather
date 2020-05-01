@@ -1,0 +1,15 @@
+.status-label {
+  font-size: 20px;
+  letter-spacing: 8.0px;
+}
+
+ion-content {
+  --overflow: hidden;
+}
+
+.now-hour {
+  background-color: #2196F3;
+  border-radius: 25px;
+  filter: drop-shadow(0 0 3px gray);
+}
+

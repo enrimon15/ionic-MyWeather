@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Weather</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="(todayWeather == null || nextDaysWeather == null || coords == null || currentWeather == null || nowHour == null) && genericError == false">
+  <ion-label>
+    <ion-spinner color="tertiary" name="crescent"></ion-spinner>
+  </ion-label>
+</ion-content>
+
+<super-tabs *ngIf="todayWeather != null && nextDaysWeather != null && coords != null && currentWeather != null && nowHour != null" [config]="config">
+
+  <super-tabs-toolbar slot="top" color="primary">
+    <super-tab-button>
+      <ion-label>{{ 'TAB_TODAY' | translate }}</ion-label>
+    </super-tab-button>
+    <super-tab-button>
+      <ion-label>{{ 'TAB_DETAILS' | translate }}</ion-label>
+    </super-tab-button>
+    <super-tab-button>
+      <ion-label>{{ 'TAB_MAP' | translate }}</ion-label>
+    </super-tab-button>
+  </super-tabs-toolbar>
+
+  <super-tabs-container swipeEnabled="false">
+    <super-tab>
+      <ion-content class="home-page">
+        <ion-nav [root]="homePage" [rootParams]="{'todayWeather': todayWeather, 'currentWeather': currentWeather, 'now': nowHour}"></ion-nav>
+      </ion-content>
+    </super-tab>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="detailsPage" [rootParams]="{'todayWeather': todayWeather, 'currentWeather': currentWeather, 'nextDaysWeather': nextDaysWeather}"></ion-nav>
+      </ion-content>
+    </super-tab>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="mapsPage" [rootParams]="{'currentWeather': currentWeather, 'coords': coords}"></ion-nav>
+      </ion-content>
+    </super-tab>
+  </super-tabs-container>
+
+</super-tabs>
+
+

@@ -24,3 +24,18 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+//google fonts
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Raleway&display=swap');
+
+ion-toolbar {
+   --ion-font-family: 'Lato', sans-serif;
+ }
+
+ion-spinner {
+  display: block;
+  margin: auto;
+  width: 50px !important;
+  height: 50px !important;
+  margin-top: 20px;
+}

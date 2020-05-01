@@ -1,0 +1,68 @@
+<ion-content>
+
+    <ion-content class="ion-text-center ion-padding" style="height: 68%" color="primary">
+        <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+            <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-label style="font-size: 25px">{{todayWeather.cityName}},</ion-label>
+                <ion-label style="font-size: 40px; margin-left: 15px">{{currentWeather.temperature.split(' ')[0]}}°
+                </ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-label color="medium" style="font-size: 18px">{{getDay()}}</ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
+                <img style="height: 100px" src='assets/img/icons/cielocoperto.png'/>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-label class="status-label">{{currentWeather.status}}</ion-label>
+            </ion-row>
+        </ion-grid>
+    </ion-content>
+
+    <!-- svg waves -->
+    <div style="height: 60px; overflow: hidden;">
+        <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+            <path d="M0.00,49.98 C250.56,-95.22 258.46,187.00 502.82,35.03 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: #0D47A1;"></path>
+        </svg>
+    </div>
+
+    <ion-content style="height: 20%">
+        <ion-grid style="height: 100%;">
+            <ion-row style="height: 100%">
+                <ion-slides [options]="slideOpts" style="height: 100%">
+                    <ion-slide *ngFor="let hour of todayWeather.hours" style="height: 100%">
+                        <span style="height: 92%">
+                            <ion-grid *ngIf="now !== hour.hour" style="height: 100%; display: flex; flex-flow: column;">
+                                <ion-row class="ion-align-items-center ion-justify-content-center">
+                                    <ion-label color="primary">{{hour.hour.split(':')[0]}}</ion-label>
+                                </ion-row>
+                                <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
+                                    <img style="height: 34px" src='assets/img/icons/cielocoperto.png'/>
+                                </ion-row>
+                                <ion-row class="ion-align-items-center ion-justify-content-center">
+                                    <ion-label style="font-size: 12px">{{hour.weather.temperature.split(' ')[0]}}°</ion-label>
+                                </ion-row>
+                            </ion-grid>
+
+                            <ion-grid class="now-hour" *ngIf="now === hour.hour" style="height: 100%; display: flex; flex-flow: column;">
+                                <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
+                                    <ion-label style="font-size: 14px" color="light">{{'HOME_NOW' | translate}}</ion-label>
+                                </ion-row>
+                                <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
+                                    <img style="height: 34px" src='assets/img/icons/cielocoperto.png'/>
+                                </ion-row>
+                            </ion-grid>
+                        </span>
+                    </ion-slide>
+                </ion-slides>
+            </ion-row>
+        </ion-grid>
+    </ion-content>
+
+
+</ion-content>
+
+<!--
+
+
+-->

@@ -1,0 +1,23 @@
+<ion-content>
+  <ion-content class="ion-text-center ion-padding" style="height: 150px" color="primary">
+    <ion-grid style="height: 100%">
+      <ion-row style="height: 100%">
+        <ion-col>
+          <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+            <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1; font-size: 70px">
+              <ion-label>{{currentWeather.temperature.split(' ')[0]}}°</ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-center ion-justify-content-center">
+              <ion-label>{{todayWeather.cityName}}, {{todayWeather.cityProvince}}</ion-label>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col>
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <img style="height: 80px" src='assets/img/icons/cielocoperto.png'>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-content>
