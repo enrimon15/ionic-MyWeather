@@ -3,10 +3,52 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>settings</ion-title>
+    <ion-title>{{'settings_title' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="lang == null || location == null || units == null">
+  <ion-label>
+    <ion-spinner color="tertiary" name="crescent"></ion-spinner>
+  </ion-label>
+</ion-content>
 
+<ion-content *ngIf="lang != null && location != null && units != null">
+
+  <ion-list lines="none">
+    <ion-item class="ion-margin-bottom ion-margin-top">
+      <ion-icon color="medium" class="ion-margin-end" name="location-outline"></ion-icon>
+      <ion-label>
+        {{'settings_location' | translate}}
+        <p>{{'settings_location_description' | translate}}</p>
+      </ion-label>
+      <ion-toggle color="tertiary" [(ngModel)]="location" (ionChange)="setLocationValue()"></ion-toggle>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom animated fadeInUp">
+      <ion-icon color="medium" class="ion-margin-end" name="globe-outline"></ion-icon>
+      <ion-label>
+        {{'settings_language' | translate}}
+        <p>{{'settings_language_description' | translate}}</p>
+      </ion-label>
+      <ion-select [interfaceOptions]="getAlertLang()" placeholder="{{lang.toUpperCase()}}" (ionChange)="setLanguageValue($event)" value="{{lang}}">
+        <ion-select-option value="it">IT</ion-select-option>
+        <ion-select-option value="en">EN</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom animated fadeInUp">
+      <ion-icon color="medium" class="ion-margin-end" name="flame-outline"></ion-icon>
+      <ion-label>
+        {{'settings_units' | translate}}
+        <p>{{'settings_units_description' | translate}}</p>
+      </ion-label>
+      <ion-select [interfaceOptions]="getAlertUnits()" placeholder="{{getUnitsDisplay(units)}}" (ionChange)="setUnitsValue($event)" value="{{units}}">
+        <ion-select-option value="imperial">{{getUnitsDisplay('imperial')}}</ion-select-option>
+        <ion-select-option value="metric">{{getUnitsDisplay('metric')}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+
+  </ion-list>
 </ion-content>

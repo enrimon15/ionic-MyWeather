@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { DetailsPage } from './details.page';
 import {TranslateModule} from '@ngx-translate/core';
+import {ExpandableComponent} from '../../components/expandable/expandable.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import {TranslateModule} from '@ngx-translate/core';
     IonicModule,
     TranslateModule.forChild()
   ],
-  declarations: [DetailsPage],
+  declarations: [DetailsPage, ExpandableComponent],
   entryComponents: [DetailsPage]
 })
 export class DetailsPageModule {}

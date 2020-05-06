@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavParams} from '@ionic/angular';
 import {TodayWeather} from '../../model/todayWeather';
 import {Weather} from '../../model/weather';
+import {IconUtilityService} from '../../services/iconUtility/icon-utility.service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomePage implements OnInit {
         }
     };
 
-  constructor(private nav: NavParams) {
+  constructor(private nav: NavParams, private iconService: IconUtilityService) {
     this.todayWeather = this.nav.get('todayWeather');
     this.currentWeather = this.nav.get('currentWeather');
     this.now = this.nav.get('now');

@@ -39,3 +39,29 @@ ion-spinner {
   height: 50px !important;
   margin-top: 20px;
 }
+
+  // checkbox border color android
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-icon.sc-ion-alert-md {
+    border-color: #FFC107;
+  }
+
+  // checkbox or radio button color android
+  .alert-radio-inner.sc-ion-alert-md {
+    background-color: #FFC107 !important;
+  }
+
+  // Checked text color android
+  [aria-checked="true"].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md {
+    color: #FFC107;
+  }
+
+  // Checked text color ios
+  [aria-checked="true"].sc-ion-alert-ios .alert-radio-label.sc-ion-alert-ios {
+    color: #FFC107;
+  }
+
+  // checkbox or radio button color ios
+  .alert-radio-inner.sc-ion-alert-ios {
+    border-color: #FFC107 !important;
+  }
+

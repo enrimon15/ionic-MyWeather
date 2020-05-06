@@ -7,3 +7,15 @@ export const URL = {
     COORDS: URL_BASE + '/mock/coords/city',
     GET_CITY: URL_BASE + '/mock/coords/getCity'
 };
+
+export const prefs = {
+    LANGUAGE_KEY: 'language',
+    UNITS_KEY: 'units',
+    LOCATION_KEY: 'location',
+    NO_LOCATION: 'false',
+    YES_LOCATION: 'true',
+    METRIC_UNITS: 'metric',
+    IMPERIAL_UNITS: 'imperial',
+    EN_LANGUAGE: 'en',
+    IT_LANGUAGE: 'it'
+};

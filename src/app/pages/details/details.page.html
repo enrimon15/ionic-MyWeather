@@ -1,9 +1,16 @@
-<ion-content>
-  <ion-content class="ion-text-center ion-padding" style="height: 150px" color="primary">
+<ion-content style="padding-bottom: 70px">
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" (click)="handleFABClick()">
+      <ion-icon color="light" name="{{FABcolor}}"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-content class="ion-text-center ion-padding details-noscroll" style="height: 150px" color="primary">
     <ion-grid style="height: 100%">
       <ion-row style="height: 100%">
         <ion-col>
-          <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+          <ion-grid style="height: 100%; padding-bottom: 8px; display: flex; flex-flow: column;">
             <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1; font-size: 70px">
               <ion-label>{{currentWeather.temperature.split(' ')[0]}}°</ion-label>
             </ion-row>
@@ -13,11 +20,185 @@
           </ion-grid>
         </ion-col>
         <ion-col>
-          <ion-row class="ion-align-items-center ion-justify-content-center">
-            <img style="height: 80px" src='assets/img/icons/cielocoperto.png'>
+          <ion-row style="height: 100%" class="ion-align-items-center ion-justify-content-center">
+            <img style="height: 80px" src="{{iconService.selectIcon(currentWeather.status)}}">
           </ion-row>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-content>
+
+  <ion-card style="margin-top: 20px">
+    <ion-card-content>
+      <ion-grid>
+
+        <ion-row style="height: 100%" class="ion-align-items-center ion-justify-content-center">
+
+          <ion-col>
+            <ion-row style="height: 100%" class="ion-align-items-center ion-justify-content-center">
+              <ion-col>
+                <ion-row class="ion-align-items-start ion-justify-content-start">
+                  <img src="assets/img/maxtemp.png" style="height: 48px">
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row class="ion-align-items-start ion-justify-content-start">
+                  <span>
+                    <ion-label *ngIf="devWidth > 320" class="label-margin-temp" color="medium">MAX</ion-label>
+                    <ion-label>{{minmax.get('max')}}°</ion-label>
+                  </span>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+
+          <ion-col>
+            <ion-row style="height: 100%" class="ion-align-items-center ion-justify-content-center">
+              <ion-col>
+                <ion-row class="ion-align-items-end ion-justify-content-end">
+                  <span>
+                    <ion-label>{{minmax.get('min')}}°</ion-label>
+                    <ion-label *ngIf="devWidth > 320" class="label-margin1-temp" color="medium">MIN</ion-label>
+                  </span>
+                </ion-row>
+              </ion-col>
+              <ion-col>
+                <ion-row class="ion-align-items-end ion-justify-content-end">
+                  <img src="assets/img/mintemp.png" style="height: 48px">
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="margin-top: 25px">
+    <ion-card-content>
+      <ion-grid>
+
+          <ion-row class="show-details-first">
+            <ion-col>
+              <ion-row class="ion-align-items-start ion-justify-content-start">
+                <ion-card-title>
+                  {{'details_humidity' | translate}}
+                </ion-card-title>
+              </ion-row>
+              <ion-row class="ion-align-items-start ion-justify-content-start">
+                <ion-card-subtitle>
+                  {{currentWeather.humidity}}
+                </ion-card-subtitle>
+              </ion-row>
+            </ion-col>
+            <ion-col>
+              <ion-row class="ion-align-items-end ion-justify-content-end">
+                <img style="height: 48px" src="assets/img/drop.png">
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+        <ion-item-divider></ion-item-divider>
+
+        <ion-row class="show-details">
+          <ion-col>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-card-title>
+                {{'details_pressure' | translate}}
+              </ion-card-title>
+            </ion-row>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-card-subtitle>
+                {{currentWeather.pressure}}
+              </ion-card-subtitle>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row class="ion-align-items-end ion-justify-content-end">
+              <img style="height: 48px" src="assets/img/speedometer.png">
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+        <ion-item-divider></ion-item-divider>
+
+        <ion-row class="show-details-end">
+          <ion-col>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-card-title>
+                {{'details_wind' | translate}}
+              </ion-card-title>
+            </ion-row>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-card-subtitle>
+                {{currentWeather.wind}}
+              </ion-card-subtitle>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row class="ion-align-items-end ion-justify-content-end">
+              <img style="height: 48px" src="assets/img/wind.png">
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card (click)="expandItem(itemExpanded)" style="margin-top: 30px">
+    <ion-card-header>
+      <ion-item lines="none">
+        <img *ngIf="devWidth > 320" style="height: 48px" src="assets/img/calendar.png" slot="start">
+        <ion-label>
+          {{'details_next_days' | translate}}
+        </ion-label>
+        <img style="height: 16px" src="assets/img/{{arrowIcon}}" slot="end">
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content style="margin-top: -15px">
+      <app-expandable expandHeight="625px" [expanded]="itemExpanded">
+        <ion-item-divider style="margin-bottom: 15px"></ion-item-divider>
+
+        <ion-row *ngFor="let day of nextFiveDaysWeather.days" class="ion-align-items-start ion-justify-content-start">
+          <ion-col>
+            <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+              <img style="height: 48px" src="{{iconService.selectIcon(day.weather.status)}}">
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-label color="dark">
+                {{day.day.split(' ')[0]}}
+                <ion-text *ngIf="devWidth <= 320" color="dark">,  {{day.weather.temperature.split(' ')[0]}}°</ion-text>
+              </ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <p>
+                {{day.weather.status}}
+              </p>
+            </ion-row>
+          </ion-col>
+          <ion-col *ngIf="devWidth > 320">
+            <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+              <ion-label style="font-size: 36px">{{day.weather.temperature.split(' ')[0]}}°</ion-label>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+      </app-expandable>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="margin-top: 35px">
+    <ion-card-content>
+      <canvas #barCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-content style="height: 65px"></ion-content>
+
+
 </ion-content>

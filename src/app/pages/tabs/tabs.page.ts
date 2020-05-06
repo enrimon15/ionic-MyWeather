@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HomePage} from '../home/home.page';
 import {DetailsPage} from '../details/details.page';
 import {MapPage} from '../map/map.page';
@@ -15,6 +15,7 @@ import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import {PermissionType, Plugins} from '@capacitor/core';
+import {SharedPrefsService} from '../../services/sharedPrefs/shared-prefs.service';
 const { Permissions } = Plugins;
 const { Network } = Plugins;
 
@@ -52,12 +53,14 @@ export class TabsPage implements OnInit {
       private geolocation: Geolocation,
       private alertController: AlertController,
       private translate: TranslateService,
+      private sharedPrefs: SharedPrefsService
   ) { }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
+    console.log(this.translate.currentLang);
     this.initTranslate().then(() => {
         this.getWeather();
     });
@@ -132,20 +135,23 @@ export class TabsPage implements OnInit {
     }
   }
 
-  private fetchData(city, province) {
-    this.todayService.getTodayWeather('torrebruna', 'AQ', 'IT', 'metric').subscribe((tw) => {
+  private async fetchData(city, province) {
+    const lang = await this.sharedPrefs.getLang();
+    const units = await this.sharedPrefs.getUnit();
+
+    this.todayService.getTodayWeather(city, province, lang.toUpperCase(), units).subscribe((tw) => {
       this.todayWeather = tw;
       console.log(this.todayWeather);
       this.getCurrentWeather();
       console.log(this.currentWeather);
     }, (error) => this.handleError(error));
 
-    this.nextDaysService.getNextDaysWeather('torrebruna', 'AQ', 'IT', 'metric').subscribe( (ndw) => {
+    this.nextDaysService.getNextDaysWeather(city, province, lang.toUpperCase(), units).subscribe( (ndw) => {
       this.nextDaysWeather = ndw;
       console.log(this.nextDaysWeather);
     }, (error) => this.handleError(error));
 
-    this.locationService.getCoords('torrebruna', 'AQ').subscribe( (coords) => {
+    this.locationService.getCoords(city, province).subscribe( (coords) => {
       this.coords = coords;
       console.log(this.coords);
     }, (error) => this.handleError(error));
@@ -160,7 +166,6 @@ export class TabsPage implements OnInit {
           text: this.alertTryButton,
           handler: () => {
             this.ionViewWillEnter();
-            console.log('try again clicked');
           }
         },
         {

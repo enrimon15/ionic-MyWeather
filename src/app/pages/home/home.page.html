@@ -1,6 +1,6 @@
 <ion-content>
 
-    <ion-content class="ion-text-center ion-padding" style="height: 68%" color="primary">
+    <ion-content class="ion-text-center ion-padding" style="height: 68%;" color="primary">
         <ion-grid style="height: 100%; display: flex; flex-flow: column;">
             <ion-row class="ion-align-items-center ion-justify-content-center">
                 <ion-label style="font-size: 25px">{{todayWeather.cityName}},</ion-label>
@@ -37,7 +37,7 @@
                                     <ion-label color="primary">{{hour.hour.split(':')[0]}}</ion-label>
                                 </ion-row>
                                 <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
-                                    <img style="height: 34px" src='assets/img/icons/cielocoperto.png'/>
+                                    <img style="height: 34px" src="{{iconService.selectIcon(hour.weather.status)}}"/> <!-- 'assets/img/icons/cielocoperto.png' -->
                                 </ion-row>
                                 <ion-row class="ion-align-items-center ion-justify-content-center">
                                     <ion-label style="font-size: 12px">{{hour.weather.temperature.split(' ')[0]}}°</ion-label>
@@ -49,7 +49,7 @@
                                     <ion-label style="font-size: 14px" color="light">{{'HOME_NOW' | translate}}</ion-label>
                                 </ion-row>
                                 <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;">
-                                    <img style="height: 34px" src='assets/img/icons/cielocoperto.png'/>
+                                    <img style="height: 34px" src='{{iconService.selectIcon(hour.weather.status)}}'/>
                                 </ion-row>
                             </ion-grid>
                         </span>

@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {TranslateService} from '@ngx-translate/core';
 import {ApiKeyService} from './services/apiKey/api-key.service';
 import {Plugins} from '@capacitor/core';
+import {CitySearchService} from './services/citySearch/city-search.service';
 const { Device } = Plugins;
 
 @Component({
@@ -19,7 +20,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private translate: TranslateService,
-    private apiKeyService: ApiKeyService
+    private apiKeyService: ApiKeyService,
+    private citySearchService: CitySearchService
   ) {
     this.initializeApp();
     this.getApiKey();
@@ -30,17 +32,23 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.initTranslate();
+      this.parseCity();
     });
   }
 
   private initTranslate() {
-    Device.getLanguageCode().then( (lang) => {
-      this.translate.setDefaultLang(lang.value.split('-')[0]);
-      this.translate.use(lang.value.split('-')[0]);
-    });
+      Device.getLanguageCode().then( (lang) => {
+        console.log(lang);
+        this.translate.setDefaultLang(lang.value.split('-')[0]);
+        this.translate.use(lang.value.split('-')[0]);
+      });
   }
 
   private getApiKey() {
     this.apiKeyService.loadApiKey();
+  }
+
+  private parseCity() {
+    this.citySearchService.loadCities();
   }
 }
