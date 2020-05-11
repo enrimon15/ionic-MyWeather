@@ -16,6 +16,7 @@ export class TodayWeatherService {
 
   getTodayWeather(city, prov, lang, units): Observable<TodayWeather> {
     const todayWeather = `${URL.TODAY}/${city}/${prov}/${lang}/units=${units}/api-key=${this.apiKeyService.apiKey}`;
+    console.log(city, prov);
     return this.http.get<TodayWeather>(todayWeather);
   }
 

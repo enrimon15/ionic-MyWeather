@@ -7,6 +7,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {ApiKeyService} from './services/apiKey/api-key.service';
 import {Plugins} from '@capacitor/core';
 import {CitySearchService} from './services/citySearch/city-search.service';
+import {SharedPrefsService} from './services/sharedPrefs/shared-prefs.service';
 const { Device } = Plugins;
 
 @Component({
@@ -21,10 +22,10 @@ export class AppComponent {
     private statusBar: StatusBar,
     private translate: TranslateService,
     private apiKeyService: ApiKeyService,
-    private citySearchService: CitySearchService
+    private citySearchService: CitySearchService,
+    private prefsService: SharedPrefsService
   ) {
     this.initializeApp();
-    this.getApiKey();
   }
 
   initializeApp() {
@@ -32,16 +33,23 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.initTranslate();
+      this.getApiKey();
       this.parseCity();
     });
   }
 
   private initTranslate() {
-      Device.getLanguageCode().then( (lang) => {
-        console.log(lang);
-        this.translate.setDefaultLang(lang.value.split('-')[0]);
-        this.translate.use(lang.value.split('-')[0]);
-      });
+    this.prefsService.getLang().then( (languagePrefs) => {
+      if (languagePrefs == null) {
+        Device.getLanguageCode().then( (lang) => {
+          console.log(lang);
+          this.translate.setDefaultLang(lang.value.split('-')[0]);
+          this.translate.use(lang.value.split('-')[0]);
+        });
+      } else {
+        this.translate.use(languagePrefs);
+      }
+    });
   }
 
   private getApiKey() {

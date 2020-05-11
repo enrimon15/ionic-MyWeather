@@ -10,14 +10,14 @@
 
       <ion-list id="menu-list">
         <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-          <ion-item-divider *ngIf="p.url == '/drawer/info'">
+          <ion-item-divider *ngIf="p.url == '/app/info'">
           </ion-item-divider>
-          <ion-item *ngIf="p.url == '/drawer/info'" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
+          <ion-item *ngIf="p.url == '/app/info'" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
             <ion-icon slot="start" name="{{p.icon}}" color="medium"></ion-icon>
             <ion-label>{{ p.title }}</ion-label>
           </ion-item>
 
-          <ion-item  *ngIf="p.url != '/drawer/info'" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
+          <ion-item  *ngIf="p.url != '/app/info'" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false">
             <ion-icon slot="start" name="{{p.icon}}" color="medium"></ion-icon>
             <ion-label>{{ p.title }}</ion-label>
           </ion-item>

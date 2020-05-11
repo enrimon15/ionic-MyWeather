@@ -11,11 +11,15 @@ import {LocationService} from '../../services/location/location.service';
 import {Coords} from '../../model/coords';
 import {Weather} from '../../model/weather';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AlertController } from '@ionic/angular';
+import {AlertController, NavController, NavParams} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import {PermissionType, Plugins} from '@capacitor/core';
 import {SharedPrefsService} from '../../services/sharedPrefs/shared-prefs.service';
+import {prefs} from '../../constants';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DbService} from '../../services/database/db.service';
+import {CitySearch} from '../../model/citySearch';
 const { Permissions } = Plugins;
 const { Network } = Plugins;
 
@@ -41,6 +45,10 @@ export class TabsPage implements OnInit {
   alertGenericError: string;
   alertConnectionError: string;
   alertLocationError: string;
+  alertLocationPrefsError: string;
+  alertLocationPrefsButton: string;
+
+  citySearched: CitySearch;
 
   config: SuperTabsConfig = {
     sideMenu: 'left',
@@ -53,14 +61,22 @@ export class TabsPage implements OnInit {
       private geolocation: Geolocation,
       private alertController: AlertController,
       private translate: TranslateService,
-      private sharedPrefs: SharedPrefsService
-  ) { }
+      private sharedPrefs: SharedPrefsService,
+      private router: Router,
+      private route: ActivatedRoute
+      // private navCtrl: NavController,
+  ) {
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.citySearched = this.router.getCurrentNavigation().extras.state.citySearched;
+      }
+    });
+  }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    console.log(this.translate.currentLang);
     this.initTranslate().then(() => {
         this.getWeather();
     });
@@ -73,15 +89,17 @@ export class TabsPage implements OnInit {
     Network.getStatus().then( (netStatus) => {
       console.log(netStatus);
       if (netStatus.connected) {
-        // if there are nav params fetchData() otherwise get user location
-
-        this.getLocation().then( (resp) => {
-          const lat = resp.coords.latitude;
-          const lon = resp.coords.longitude;
-          this.locationService.getCity(lat, lon).subscribe( (city) => {
-            this.fetchData(city, 'NULL');
-          }, (error) => this.handleError(error));
-        });
+        if (this.citySearched != null) {
+          this.fetchData(this.citySearched.comune, this.citySearched.provincia);
+        } else {
+          this.getLocation().then((resp) => {
+            const lat = resp.coords.latitude;
+            const lon = resp.coords.longitude;
+            this.locationService.getCity(lat, lon).subscribe((city) => {
+              this.fetchData(city.city, 'NULL');
+            }, (error) => this.handleError(error));
+          });
+      }
 
       } else {
         throw new Error('NO CONNECTION');
@@ -105,13 +123,17 @@ export class TabsPage implements OnInit {
 
   private async getLocation() {
     try {
-      const permission = await Permissions.query({ name: PermissionType.Geolocation });
-      console.log('Geo: ' + permission.state);
-      // tslint:disable-next-line:triple-equals
-      if (permission.state == 'granted') {
-        return await this.geolocation.getCurrentPosition();
+      const locationPrefs = await this.sharedPrefs.getLoc();
+      if (locationPrefs === prefs.YES_LOCATION) {
+        const permission = await Permissions.query({ name: PermissionType.Geolocation });
+        // tslint:disable-next-line:triple-equals
+        if (permission.state == 'granted') {
+          return await this.geolocation.getCurrentPosition();
+        } else {
+          throw new Error('NO LOCATION PERMISSION');
+        }
       } else {
-        throw new Error('NO LOCATION PERMISSION');
+        throw new Error('NO LOCATION PREFS PERMISSION');
       }
     } catch (e) {
       this.handleError(e);
@@ -122,16 +144,25 @@ export class TabsPage implements OnInit {
     console.log(error.toString());
     this.genericError = true;
     switch (error.toString()) {
-      case 'NO LOCATION PERMISSION' :
-        this.showAlert('Oops..', this.alertLocationError);
+      case 'Error: NO CONNECTION' : {
+        this.showAlert('Oops..', this.alertConnectionError, this.alertTryButton, () => this.ionViewWillEnter(), null, null);
         break;
+      }
 
-      case 'NO CONNECTION' :
-        this.showAlert('Oops..', this.alertConnectionError);
+      case 'Error: NO LOCATION PERMISSION' : {
+        this.showAlert('Oops..', this.alertLocationError, this.alertTryButton, () => this.ionViewWillEnter(), null, null);
         break;
+      }
 
-      default :
-        this.showAlert('Oops..', this.alertGenericError);
+      case 'Error: NO LOCATION PREFS PERMISSION' : {
+        // tslint:disable-next-line:max-line-length
+        this.showAlert('Oops..', this.alertLocationPrefsError, this.alertTryButton, () => this.ionViewWillEnter(), this.alertLocationPrefsButton, () => this.router.navigate(['/app/settings']));
+        break;
+      }
+
+      default : {
+        this.showAlert('Oops..', this.alertGenericError, this.alertTryButton, () => this.ionViewWillEnter(), null, null);
+      }
     }
   }
 
@@ -157,25 +188,30 @@ export class TabsPage implements OnInit {
     }, (error) => this.handleError(error));
   }
 
-  async showAlert(title, content) {
+  async showAlert(title, content, firstButtonText, firstButtonOp, secondButtonText, secondButtonOp) {
+    console.log(content);
+    const butt = (secondButtonText != null && secondButtonOp != null)
+        ? [
+          {
+            text: firstButtonText,
+            handler: firstButtonOp
+          },
+          {
+            text: secondButtonText,
+            handler: secondButtonOp
+          }
+        ]
+        : [
+          {
+            text: firstButtonText,
+            handler: firstButtonOp
+          }
+        ];
+
     const alert = await this.alertController.create({
       header: title,
       message: content,
-      buttons: [
-        {
-          text: this.alertTryButton,
-          handler: () => {
-            this.ionViewWillEnter();
-          }
-        },
-        {
-          text: 'Impostazioni',
-          handler: () => {
-            console.log('settings clicked');
-            // this.router.navigate(['/tabs/home/preferenze']);
-          }
-        }
-      ]
+      buttons: butt
     });
 
     await alert.present();
@@ -190,6 +226,12 @@ export class TabsPage implements OnInit {
     });
     await this.translate.get('location_settings_error').subscribe((data: string) => {
       this.alertLocationError = data;
+    });
+    await this.translate.get('location_prefs_error').subscribe((data: string) => {
+      this.alertLocationPrefsError = data;
+    });
+    await this.translate.get('location_prefs_button').subscribe((data: string) => {
+      this.alertLocationPrefsButton = data;
     });
     await this.translate.get('connection_error').subscribe((data: string) => {
       this.alertConnectionError = data;

@@ -1,9 +1,21 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>search</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/app/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>SearchBar</ion-title>
   </ion-toolbar>
+  <ion-searchbar animated placeholder="Search.." (ionInput)="handleSearch($event)"></ion-searchbar> <!--[(ngModel)]="input"-->
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let city of citiesMatch" (click)="selectCity(city)">
+      <ion-icon class="ion-margin-end" name="home-outline"></ion-icon>
+      <ion-label>
+        {{city.comune}}
+        <p>{{city.provincia}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

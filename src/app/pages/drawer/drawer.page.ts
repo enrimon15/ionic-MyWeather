@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-drawer',
@@ -14,10 +14,16 @@ export class DrawerPage implements OnInit {
 
   public appPages = [];
 
-  constructor(private translate: TranslateService, ) {
+  constructor(private translate: TranslateService) {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.initTranslate();
+    });
   }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.initTranslate();
   }
 
@@ -37,22 +43,22 @@ export class DrawerPage implements OnInit {
     this.appPages = [
       {
         title: this.homeTitle,
-        url: '/drawer/tabs',
+        url: '/app/tabs',
         icon: 'location-sharp'
       },
       {
         title: this.favTitle,
-        url: '/drawer/favorites',
+        url: '/app/favorites',
         icon: 'star-sharp'
       },
       {
         title: this.settingsTitle,
-        url: '/drawer/settings',
+        url: '/app/settings',
         icon: 'settings-sharp'
       },
       {
         title: this.infoTitle,
-        url: '/drawer/info',
+        url: '/app/info',
         icon: 'information-circle-sharp'
       }
     ];

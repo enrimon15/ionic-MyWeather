@@ -23,7 +23,7 @@ import {TranslateModule} from '@ngx-translate/core';
     HomePageModule,
     DetailsPageModule,
     MapPageModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
   ],
   declarations: [TabsPage]
 })

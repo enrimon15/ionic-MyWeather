@@ -5,7 +5,7 @@ import { DrawerPage } from './drawer.page';
 
 const routes: Routes = [
   {
-    path: 'drawer',
+    path: 'app',
     component: DrawerPage,
     children: [
       {
@@ -23,12 +23,16 @@ const routes: Routes = [
       {
         path: 'info',
         loadChildren: () => import('../info/info.module').then( m => m.InfoPageModule)
+      },
+      {
+        path: 'search',
+        loadChildren: () => import('../search/search.module').then( m => m.SearchPageModule)
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/drawer/tabs'
+    redirectTo: '/app/tabs'
   }
 ];
 

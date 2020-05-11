@@ -47,10 +47,11 @@ export class IconUtilityService {
     const addMarker = 'marker.';
     let splitted: string[];
 
+
     if (this.iconMappingIT[icon] != null && this.iconMappingIT[icon] !== undefined) {
       splitted = this.iconMappingIT[icon].split('.');
     }
-    else if (this.iconMappingEN[icon] != null && this.iconMappingIT[icon] !== undefined) {
+    else if (this.iconMappingEN[icon] != null && this.iconMappingEN[icon] !== undefined) {
       splitted = this.iconMappingEN[icon].split('.');
     }
 

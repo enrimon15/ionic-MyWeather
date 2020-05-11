@@ -33,5 +33,10 @@
   "settings_language_description" : "Choose the language",
   "settings_units" : "Units",
   "settings_units_description" : "Choose the units",
-  "overflow_settings_subtitle" : "Manage"
+  "overflow_settings_subtitle" : "Manage",
+
+  "favorites_title" : "Favorites",
+
+  "search_title" : "Search Cities",
+  "search_placeholder" : "Search.."
 }
