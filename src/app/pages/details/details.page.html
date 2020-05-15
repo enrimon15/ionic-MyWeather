@@ -45,7 +45,7 @@
                 <ion-row class="ion-align-items-start ion-justify-content-start">
                   <span>
                     <ion-label *ngIf="devWidth > 320" class="label-margin-temp" color="medium">MAX</ion-label>
-                    <ion-label>{{minmax.get('max')}}°</ion-label>
+                    <ion-label style="font-family: Lato">{{minmax.get('max')}}°</ion-label>
                   </span>
                 </ion-row>
               </ion-col>
@@ -57,7 +57,7 @@
               <ion-col>
                 <ion-row class="ion-align-items-end ion-justify-content-end">
                   <span>
-                    <ion-label>{{minmax.get('min')}}°</ion-label>
+                    <ion-label style="font-family: Lato">{{minmax.get('min')}}°</ion-label>
                     <ion-label *ngIf="devWidth > 320" class="label-margin1-temp" color="medium">MIN</ion-label>
                   </span>
                 </ion-row>
@@ -183,7 +183,7 @@
           </ion-col>
           <ion-col *ngIf="devWidth > 320">
             <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
-              <ion-label style="font-size: 36px">{{day.weather.temperature.split(' ')[0]}}°</ion-label>
+              <ion-label style="font-size: 36px; font-family: Lato">{{day.weather.temperature.split(' ')[0]}}°</ion-label>
             </ion-row>
           </ion-col>
         </ion-row>

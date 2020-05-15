@@ -38,5 +38,9 @@
   "favorites_title" : "Favorites",
 
   "search_title" : "Search Cities",
-  "search_placeholder" : "Search.."
+  "search_placeholder" : "Search..",
+
+  "info_title": "Info",
+
+  "error_page_button" : "Back to Home"
 }

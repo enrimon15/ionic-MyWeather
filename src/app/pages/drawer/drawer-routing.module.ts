@@ -25,6 +25,10 @@ const routes: Routes = [
         loadChildren: () => import('../info/info.module').then( m => m.InfoPageModule)
       },
       {
+        path: 'error',
+        loadChildren: () => import('../error-screen/error-screen.module').then( m => m.ErrorScreenPageModule)
+      },
+      {
         path: 'search',
         loadChildren: () => import('../search/search.module').then( m => m.SearchPageModule)
       }
@@ -32,8 +36,14 @@ const routes: Routes = [
   },
   {
     path: '',
+    pathMatch: 'full',
     redirectTo: '/app/tabs'
-  }
+  },
+  {
+    path: 'error-screen',
+    loadChildren: () => import('../error-screen/error-screen.module').then( m => m.ErrorScreenPageModule)
+  },
+  {path: '**', redirectTo: '/error-screen'} // it handles error screen (redirect to error screen when there is an unknown path)
 ];
 
 @NgModule({

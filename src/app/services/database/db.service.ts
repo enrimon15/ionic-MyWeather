@@ -76,14 +76,14 @@ export class DbService {
     });
   }
 
-  deleteDeveloper(id) {
+  deleteCity(id) {
     return this.database.executeSql('DELETE FROM favorite_cities WHERE id = ?', [id]).then(res => {
       console.log(res);
     });
   }
 
-  checkIsFavorite(city: CityFavorite) {
-    const param = [city.name, city.province];
+  checkIsFavorite(cityName: string, cityProvince: string) {
+    const param = [cityName, cityProvince];
     return this.database.executeSql('SELECT * FROM favorite_cities WHERE name = ? and province = ?', [param]).then(data => {
       if (data.rows.length > 0) {
         return {

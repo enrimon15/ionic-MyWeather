@@ -37,5 +37,9 @@
   "favorites_title" : "Preferiti",
 
   "search_title" : "Ricerca Città",
-  "search_placeholder" : "Cerca.."
+  "search_placeholder" : "Cerca..",
+
+  "info_title": "Info",
+
+  "error_page_button" : "Torna alla Home"
 }

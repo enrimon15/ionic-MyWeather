@@ -20,6 +20,7 @@ import {prefs} from '../../constants';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DbService} from '../../services/database/db.service';
 import {CitySearch} from '../../model/citySearch';
+import {CityFavorite} from '../../model/cityFavorite';
 const { Permissions } = Plugins;
 const { Network } = Plugins;
 
@@ -49,6 +50,8 @@ export class TabsPage implements OnInit {
   alertLocationPrefsButton: string;
 
   citySearched: CitySearch;
+  isFavorite = false;
+  currentCity: CityFavorite;
 
   config: SuperTabsConfig = {
     sideMenu: 'left',
@@ -63,8 +66,8 @@ export class TabsPage implements OnInit {
       private translate: TranslateService,
       private sharedPrefs: SharedPrefsService,
       private router: Router,
-      private route: ActivatedRoute
-      // private navCtrl: NavController,
+      private route: ActivatedRoute,
+      private dbHelper: DbService
   ) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -172,19 +175,25 @@ export class TabsPage implements OnInit {
 
     this.todayService.getTodayWeather(city, province, lang.toUpperCase(), units).subscribe((tw) => {
       this.todayWeather = tw;
-      console.log(this.todayWeather);
       this.getCurrentWeather();
-      console.log(this.currentWeather);
+      this.dbHelper.getDatabaseState().subscribe( (ready) => {
+        if (ready) {
+          this.dbHelper.checkIsFavorite(tw.cityName, tw.cityProvince).then( (cityFav) => {
+            if (cityFav != null) {
+              this.isFavorite = true;
+              this.currentCity = cityFav;
+            }
+          });
+        }
+      });
     }, (error) => this.handleError(error));
 
     this.nextDaysService.getNextDaysWeather(city, province, lang.toUpperCase(), units).subscribe( (ndw) => {
       this.nextDaysWeather = ndw;
-      console.log(this.nextDaysWeather);
     }, (error) => this.handleError(error));
 
     this.locationService.getCoords(city, province).subscribe( (coords) => {
       this.coords = coords;
-      console.log(this.coords);
     }, (error) => this.handleError(error));
   }
 

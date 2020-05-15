@@ -10,6 +10,209 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="citiesFav == null">
+  <ion-label>
+    <ion-spinner color="tertiary" name="crescent"></ion-spinner>
+  </ion-label>
+</ion-content>
 
+<ion-content *ngIf="citiesFav != null">
+  <ion-card style="border-radius: 35px;" *ngFor="let city of citiesFav; let indexOfElement=index;">
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 1" style="background: url('../../../assets/img/backgrounds/01b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+        <ion-row class="ion-align-items-center ion-justify-content-start">
+          <ion-col size="3">
+            <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+              <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+            </ion-row>
+          </ion-col>
+          <ion-col size="6">
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-label style="font-weight: 700" color="light">
+                {{city.name}}
+              </ion-label>
+            </ion-row>
+            <ion-row class="ion-align-items-start ion-justify-content-start">
+              <ion-label color="light" style="font-weight: 700; font-size: 14px">
+                {{city.status}}
+              </ion-label>
+            </ion-row>
+          </ion-col>
+          <ion-col size="3">
+            <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+              <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 2" style="background: url('../../../assets/img/backgrounds/02b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 3" style="background: url('../../../assets/img/backgrounds/03b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 4" style="background: url('../../../assets/img/backgrounds/04b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 5" style="background: url('../../../assets/img/backgrounds/05b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 6" style="background: url('../../../assets/img/backgrounds/06b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+
+    <ion-card-content *ngIf="((indexOfElement+1) % 7) == 7" style="background: url('../../../assets/img/backgrounds/07b.jpg')"> <!-- url({{backgroundList[indexOfElement % backgroundList.length]}}) -->
+      <ion-row class="ion-align-items-center ion-justify-content-start">
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-start ion-justify-content-start">
+            <img style="height: 48px" src="{{iconService.selectIcon(city.status)}}">
+          </ion-row>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label style="font-weight: 700" color="light">
+              {{city.name}}
+            </ion-label>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-label color="light" style="font-weight: 700; font-size: 14px">
+              {{city.status}}
+            </ion-label>
+          </ion-row>
+        </ion-col>
+        <ion-col size="3">
+          <ion-row style="height: 100%" class="ion-align-items-end ion-justify-content-end">
+            <ion-label color="light" style="font-size: 36px; font-family: Lato">5°</ion-label>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>

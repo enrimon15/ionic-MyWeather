@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+const { Browser } = Plugins;
 
 @Component({
   selector: 'app-info',
@@ -10,6 +12,10 @@ export class InfoPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  async openURL() {
+    await Browser.open({ url: 'http://cetemps.aquila.infn.it/' });
   }
 
 }

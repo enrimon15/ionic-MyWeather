@@ -7,6 +7,8 @@ import {Weather} from '../../model/weather';
 import {IconUtilityService} from '../../services/iconUtility/icon-utility.service';
 import { Chart } from 'chart.js';
 import {TranslateService} from '@ngx-translate/core';
+import {CityFavorite} from '../../model/cityFavorite';
+import {DbService} from '../../services/database/db.service';
 
 @Component({
   selector: 'app-details',
@@ -17,6 +19,8 @@ export class DetailsPage implements OnInit {
   nextFiveDaysWeather: NextFiveDaysWeather;
   todayWeather: TodayWeather;
   currentWeather: Weather;
+  isFavorite: boolean;
+  currentCity: CityFavorite;
   minmax: Map<string, string>;
   FABcolor: string;
   devWidth: number;
@@ -28,11 +32,14 @@ export class DetailsPage implements OnInit {
 
   itemExpanded: boolean;
 
-  constructor(private nav: NavParams, private iconService: IconUtilityService, private platform: Platform, private translate: TranslateService) {
+  // tslint:disable-next-line:max-line-length
+  constructor(private nav: NavParams, private iconService: IconUtilityService, private platform: Platform, private translate: TranslateService, private dbHelper: DbService) {
     this.todayWeather = this.nav.get('todayWeather');
     this.nextFiveDaysWeather = this.nav.get('nextDaysWeather');
     this.currentWeather = this.nav.get('currentWeather');
-    this.FABcolor = 'star-outline';
+    this.currentCity = this.nav.get('currentCity');
+    this.isFavorite = this.nav.get('isFavorite');
+    this.FABcolor = this.isFavorite ? 'star' : 'star-outline';
     this.devWidth = this.platform.width();
     this.itemExpanded = false;
     this.arrowIcon = 'down-arrow.png';
@@ -114,7 +121,19 @@ export class DetailsPage implements OnInit {
   }
 
   handleFABClick() {
-    this.FABcolor = this.FABcolor === 'star-outline' ? 'star' : 'star-outline';
+    this.dbHelper.getDatabaseState().subscribe( (ready) => {
+      if (ready) {
+        if (this.isFavorite === true) {
+          // tslint:disable-next-line:no-unused-expression
+          this.FABcolor === 'star-outline';
+          this.dbHelper.deleteCity(this.currentCity.id);
+        } else {
+          // tslint:disable-next-line:no-unused-expression
+          this.FABcolor === 'star';
+          this.dbHelper.addCity(this.currentCity.name, this.currentCity.province);
+        }
+      }
+    });
   }
 
   expandItem(itemExpanded): void {
