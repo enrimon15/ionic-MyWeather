@@ -33,9 +33,13 @@
   "settings_language_description" : "Choose the language",
   "settings_units" : "Units",
   "settings_units_description" : "Choose the units",
-  "overflow_settings_subtitle" : "Manage",
 
   "favorites_title" : "Favorites",
+  "fav_no_content" : "You haven't added any favorites yet!",
+  "fav_dialog_title" : "Are you sure",
+  "fav_dialog_content" : "Do you want to remove the city from your favorites?",
+  "fav_no_button" : "No",
+  "fav_yes_button" : "Yes",
 
   "search_title" : "Search Cities",
   "search_placeholder" : "Search..",

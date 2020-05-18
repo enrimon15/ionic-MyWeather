@@ -35,6 +35,11 @@
   "settings_units_description" : "Scegli l'unità",
 
   "favorites_title" : "Preferiti",
+  "fav_no_content" : "Non hai ancora aggiunto nessun preferito!",
+  "fav_dialog_title" : "Sei sicuro?",
+  "fav_dialog_content" : "Vuoi rimuovere la città dai preferiti?",
+  "fav_no_button" : "No",
+  "fav_yes_button" : "Si",
 
   "search_title" : "Ricerca Città",
   "search_placeholder" : "Cerca..",

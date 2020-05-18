@@ -3,9 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/app/tabs"></ion-back-button>
     </ion-buttons>
-    <ion-title>SearchBar</ion-title>
+    <ion-title>{{'search_title' | translate}}</ion-title>
   </ion-toolbar>
-  <ion-searchbar animated placeholder="Search.." (ionInput)="handleSearch($event)"></ion-searchbar> <!--[(ngModel)]="input"-->
+  <ion-searchbar animated placeholder="Search.." (ionInput)="handleSearch($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content>

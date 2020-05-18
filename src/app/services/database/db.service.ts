@@ -18,7 +18,8 @@ export class DbService {
     })
     .then((db: SQLiteObject) => {
       this.database = db;
-      db.executeSql('CREATE TABLE favorite_cities(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, province TEXT NOT NULL)', [])
+      // tslint:disable-next-line:max-line-length
+      db.executeSql('CREATE TABLE IF NOT EXISTS favorite_cities(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, province TEXT NOT NULL)', [])
               .then(() => {
                 console.log('Executed SQL CREATE');
                 this.dbReady.next(true);
@@ -27,7 +28,6 @@ export class DbService {
     })
     .catch(e => console.log(e));
   }
-
 
   getDatabaseState() {
     return this.dbReady.asObservable();
@@ -43,12 +43,11 @@ export class DbService {
             id: data.rows.item(i).id,
             name: data.rows.item(i).name,
             province: data.rows.item(i).province,
-            condition: null,
             status: null
           });
         }
       }
-
+      console.log('fetch cities:', cities);
       return cities;
     });
   }
@@ -56,7 +55,7 @@ export class DbService {
   addCity(name, province) {
     const data = [name, province];
     return this.database.executeSql('INSERT INTO favorite_cities (name, province) VALUES (?, ?)', data).then(res => {
-      console.log(res);
+      console.log('addCity:', res);
     });
   }
 
@@ -76,25 +75,21 @@ export class DbService {
     });
   }
 
-  deleteCity(id) {
-    return this.database.executeSql('DELETE FROM favorite_cities WHERE id = ?', [id]).then(res => {
-      console.log(res);
+  deleteCity(name, province) {
+    const data = [name, province];
+    return this.database.executeSql('DELETE FROM favorite_cities WHERE name = (?) AND province = (?)', data).then(res => {
+      console.log('deleteCity:', res);
     });
   }
 
-  checkIsFavorite(cityName: string, cityProvince: string) {
+  checkIsFavorite(cityName, cityProvince) {
     const param = [cityName, cityProvince];
-    return this.database.executeSql('SELECT * FROM favorite_cities WHERE name = ? and province = ?', [param]).then(data => {
+    return this.database.executeSql('SELECT * FROM favorite_cities WHERE name = (?) and province = (?)', param).then(data => {
       if (data.rows.length > 0) {
-        return {
-          id: data.rows.item(0).id,
-          name: data.rows.item(0).name,
-          province: data.rows.item(0).province,
-          condition: null,
-          status: null
-        };
+        console.log(data.rows.item(0).name + ', ' + data.rows.item(0).province);
+        return true;
       } else {
-        return null;
+        return false;
       }
     });
   }

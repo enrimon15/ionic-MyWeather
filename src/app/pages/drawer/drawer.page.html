@@ -2,10 +2,20 @@
   <ion-menu contentId="main-content" type="overlay">
     <ion-content>
 
-      <ion-content color="primary" class="ion-padding" style="height: 60px;">
-        <ion-label>
-          <ion-label>My Weather</ion-label>
-        </ion-label>
+      <ion-content color="primary" class="ion-padding" style="height: 130px;">
+        <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+          <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-grow: 1;"></ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-col>
+              <img style="height: 48px" src="assets/img/logo.png">
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-align-items-start ion-justify-content-start">
+            <ion-col>
+              <ion-label style="font-size: 24px; font-family: Quicksand">My Weather</ion-label>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-content>
 
       <ion-list id="menu-list">

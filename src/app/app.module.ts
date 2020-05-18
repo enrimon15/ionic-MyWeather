@@ -14,6 +14,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
+import {OpenNativeSettings} from '@ionic-native/open-native-settings/ngx';
 
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
@@ -43,7 +44,8 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
-    SQLite
+    SQLite,
+    OpenNativeSettings
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CitySearchService} from '../../services/citySearch/city-search.service';
 import {CitySearch} from '../../model/citySearch';
-import {NavController} from '@ionic/angular';
 import {NavigationExtras, Router} from '@angular/router';
 
 @Component({
@@ -10,7 +9,6 @@ import {NavigationExtras, Router} from '@angular/router';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-  // input: string;
   citiesMatch: CitySearch[] = [];
   allCities: CitySearch[];
 
@@ -25,8 +23,6 @@ export class SearchPage implements OnInit {
   }
 
   handleSearch($event: any) {
-    // console.log($event.detail.srcElement.value);
-    // console.log(this.input);
     const val = $event.target.value;
     this.citiesMatch = [];
     if (val && val.trim() !== '') {

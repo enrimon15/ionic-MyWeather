@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {URL} from '../../constants';
 import {NextFiveDaysWeather} from '../../model/nextFiveDaysWeather';
+import {timeout} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class NextDaysWeatherService {
 
   getNextDaysWeather(city, prov, lang, units): Observable<NextFiveDaysWeather> {
     const nextDaysWeather = `${URL.NEXT_DAYS}/${city}/${prov}/${lang}/units=${units}/api-key=${this.apiKeyService.apiKey}`;
-    return this.http.get<NextFiveDaysWeather>(nextDaysWeather);
+    return this.http.get<NextFiveDaysWeather>(nextDaysWeather).pipe(
+        timeout(10000)
+    );
   }
 }

@@ -10,13 +10,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="(todayWeather == null || nextDaysWeather == null || coords == null || currentWeather == null || nowHour == null) && genericError == false">
+<ion-content *ngIf="(todayWeather == null || nextDaysWeather == null || coords == null || currentWeather == null || nowHour == null || favoriteChecked == false) && genericError == false">
   <ion-label>
     <ion-spinner color="tertiary" name="crescent"></ion-spinner>
   </ion-label>
 </ion-content>
 
-<super-tabs *ngIf="todayWeather != null && nextDaysWeather != null && coords != null && currentWeather != null && nowHour != null" [config]="config">
+<super-tabs *ngIf="todayWeather != null && nextDaysWeather != null && coords != null && currentWeather != null && nowHour != null && favoriteChecked == true" [config]="config">
 
   <super-tabs-toolbar slot="top" color="primary">
     <super-tab-button>
@@ -38,7 +38,7 @@
     </super-tab>
     <super-tab>
       <ion-content>
-        <ion-nav [root]="detailsPage" [rootParams]="{'todayWeather': todayWeather, 'currentWeather': currentWeather, 'nextDaysWeather': nextDaysWeather, 'isFavorite': isFavorite, 'currentCity': currentCity}"></ion-nav>
+        <ion-nav [root]="detailsPage" [rootParams]="{'todayWeather': todayWeather, 'currentWeather': currentWeather, 'nextDaysWeather': nextDaysWeather, 'isFavorite': isFavorite}"></ion-nav>
       </ion-content>
     </super-tab>
     <super-tab>

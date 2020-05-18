@@ -11,7 +11,7 @@ import {LocationService} from '../../services/location/location.service';
 import {Coords} from '../../model/coords';
 import {Weather} from '../../model/weather';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import {AlertController, NavController, NavParams} from '@ionic/angular';
+import {AlertController} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
 import {PermissionType, Plugins} from '@capacitor/core';
@@ -20,7 +20,7 @@ import {prefs} from '../../constants';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DbService} from '../../services/database/db.service';
 import {CitySearch} from '../../model/citySearch';
-import {CityFavorite} from '../../model/cityFavorite';
+import {OpenNativeSettings} from '@ionic-native/open-native-settings/ngx';
 const { Permissions } = Plugins;
 const { Network } = Plugins;
 
@@ -48,10 +48,11 @@ export class TabsPage implements OnInit {
   alertLocationError: string;
   alertLocationPrefsError: string;
   alertLocationPrefsButton: string;
+  alertSettingsButton: string;
 
   citySearched: CitySearch;
   isFavorite = false;
-  currentCity: CityFavorite;
+  favoriteChecked = false;
 
   config: SuperTabsConfig = {
     sideMenu: 'left',
@@ -67,7 +68,8 @@ export class TabsPage implements OnInit {
       private sharedPrefs: SharedPrefsService,
       private router: Router,
       private route: ActivatedRoute,
-      private dbHelper: DbService
+      private dbHelper: DbService,
+      private openNativeService: OpenNativeSettings
   ) {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -128,13 +130,14 @@ export class TabsPage implements OnInit {
     try {
       const locationPrefs = await this.sharedPrefs.getLoc();
       if (locationPrefs === prefs.YES_LOCATION) {
-        const permission = await Permissions.query({ name: PermissionType.Geolocation });
+        // tslint:disable-next-line:max-line-length
+        // const permission = await Permissions.query({ name: PermissionType.Geolocation }); to check if the app has location permission, permission.state = 'granted' if yes
+
         // tslint:disable-next-line:triple-equals
-        if (permission.state == 'granted') {
-          return await this.geolocation.getCurrentPosition();
-        } else {
-          throw new Error('NO LOCATION PERMISSION');
-        }
+        return await this.geolocation.getCurrentPosition({
+            timeout: 5000, // with timeout i don't need to check if location is enable, if it isn't enable timeout ends and goes to catch
+            enableHighAccuracy: true
+        }).catch( err => {throw new Error('NO LOCATION PERMISSION'); });
       } else {
         throw new Error('NO LOCATION PREFS PERMISSION');
       }
@@ -144,7 +147,7 @@ export class TabsPage implements OnInit {
   }
 
   private handleError(error) {
-    console.log(error.toString());
+    console.log('init error:', error.toString());
     this.genericError = true;
     switch (error.toString()) {
       case 'Error: NO CONNECTION' : {
@@ -153,7 +156,8 @@ export class TabsPage implements OnInit {
       }
 
       case 'Error: NO LOCATION PERMISSION' : {
-        this.showAlert('Oops..', this.alertLocationError, this.alertTryButton, () => this.ionViewWillEnter(), null, null);
+        // tslint:disable-next-line:max-line-length
+        this.showAlert('Oops..', this.alertLocationError, this.alertTryButton, () => this.ionViewWillEnter(), this.alertSettingsButton, () => this.open('location'));
         break;
       }
 
@@ -178,11 +182,11 @@ export class TabsPage implements OnInit {
       this.getCurrentWeather();
       this.dbHelper.getDatabaseState().subscribe( (ready) => {
         if (ready) {
-          this.dbHelper.checkIsFavorite(tw.cityName, tw.cityProvince).then( (cityFav) => {
-            if (cityFav != null) {
+          this.dbHelper.checkIsFavorite(this.todayWeather.cityName, this.todayWeather.cityProvince.substring(1, 3)).then( (res) => {
+            if (res) {
               this.isFavorite = true;
-              this.currentCity = cityFav;
             }
+            this.favoriteChecked = true;
           });
         }
       });
@@ -226,6 +230,12 @@ export class TabsPage implements OnInit {
     await alert.present();
   }
 
+  open(systemSetting: string) {
+    this.openNativeService.open(systemSetting).then( val => {
+      console.log('val: ' + val);
+    }).catch( err => console.log('Open native settings error: ' + err));
+  }
+
   private async initTranslate() {
     await this.translate.get('try_again').subscribe((data: string) => {
       this.alertTryButton = data;
@@ -244,6 +254,9 @@ export class TabsPage implements OnInit {
     });
     await this.translate.get('connection_error').subscribe((data: string) => {
       this.alertConnectionError = data;
+    });
+    await this.translate.get('settings_button').subscribe((data: string) => {
+      this.alertSettingsButton = data;
     });
   }
 }

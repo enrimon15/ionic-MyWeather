@@ -20,7 +20,6 @@ export class DetailsPage implements OnInit {
   todayWeather: TodayWeather;
   currentWeather: Weather;
   isFavorite: boolean;
-  currentCity: CityFavorite;
   minmax: Map<string, string>;
   FABcolor: string;
   devWidth: number;
@@ -37,7 +36,6 @@ export class DetailsPage implements OnInit {
     this.todayWeather = this.nav.get('todayWeather');
     this.nextFiveDaysWeather = this.nav.get('nextDaysWeather');
     this.currentWeather = this.nav.get('currentWeather');
-    this.currentCity = this.nav.get('currentCity');
     this.isFavorite = this.nav.get('isFavorite');
     this.FABcolor = this.isFavorite ? 'star' : 'star-outline';
     this.devWidth = this.platform.width();
@@ -124,20 +122,19 @@ export class DetailsPage implements OnInit {
     this.dbHelper.getDatabaseState().subscribe( (ready) => {
       if (ready) {
         if (this.isFavorite === true) {
-          // tslint:disable-next-line:no-unused-expression
-          this.FABcolor === 'star-outline';
-          this.dbHelper.deleteCity(this.currentCity.id);
+          this.FABcolor = 'star-outline';
+          this.dbHelper.deleteCity(this.todayWeather.cityName, this.todayWeather.cityProvince.substring(1, 3));
+          this.isFavorite = false;
         } else {
-          // tslint:disable-next-line:no-unused-expression
-          this.FABcolor === 'star';
-          this.dbHelper.addCity(this.currentCity.name, this.currentCity.province);
+          this.FABcolor = 'star';
+          this.dbHelper.addCity(this.todayWeather.cityName, this.todayWeather.cityProvince.substring(1, 3));
+          this.isFavorite = true;
         }
       }
     });
   }
 
   expandItem(itemExpanded): void {
-    console.log('click expand');
     if (itemExpanded) {
       this.itemExpanded = false;
       this.arrowIcon = 'down-arrow.png';
