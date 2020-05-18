@@ -31,7 +31,7 @@ export class MapPage implements OnInit {
 
   showMap() {
     this.map = new Map('mapId').setView([this.coords.lat, this.coords.lon], 13);
-    tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Enrico Monte | UNIVAQ',
     }).addTo(this.map);
 
